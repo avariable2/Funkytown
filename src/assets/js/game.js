@@ -40,12 +40,7 @@ class Game extends Phaser.Scene {
         this.player = this.add.sprite(400, 300, 'dude').play('default');
         this.player.setScale(4);
 
-        this.touches.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.touches.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.touches.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.touches.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-
-
+        this.touches.keys = this.input.keyboard.addKeys('W,A,S,D,Z,Q');
 
         this.player2 = this.add.sprite(400, 300, 'elf').play('default_elf');
         this.player2.setScale(5);
@@ -63,13 +58,13 @@ class Game extends Phaser.Scene {
             this.player.y -= 5; 
         } 
 
-        if(this.input.keyboard.checkDown(this.touches.keyA, 0)) {
+        if(this.touches.keys.A.isDown || this.touches.keys.Q.isDown) {
             this.player2.x -= 5;
-        } else if(this.input.keyboard.checkDown(this.touches.keyD, 0)) {
+        } else if(this.touches.keys.D.isDown) {
             this.player2.x += 5;
-        } else if(this.input.keyboard.checkDown(this.touches.keyS, 0)) {
+        } else if(this.touches.keys.S.isDown) {
             this.player2.y += 5;
-        } else if(this.input.keyboard.checkDown(this.touches.keyW, 0)) {
+        } else if(this.touches.keys.W.isDown || this.touches.keys.Z.isDown) {
             this.player2.y -= 5;
         } 
 
