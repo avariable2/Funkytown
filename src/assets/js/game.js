@@ -21,7 +21,7 @@ class Game extends Phaser.Scene {
         this.anims.create({
             key: 'default', // nom de l'animation
             frames: 'dude', 
-            frameRate: 1.5, // vitesse de l'animation
+            frameRate: 5, // vitesse de l'animation
             repeat : -1 // infini
         });
         
