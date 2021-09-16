@@ -5,6 +5,7 @@ class Game extends Phaser.Scene {
     constructor() {
         super();
     }
+
     preload () // Ici on charge les assets
     {
         this.load.spritesheet('dude',
@@ -21,7 +22,7 @@ class Game extends Phaser.Scene {
         this.anims.create({
             key: 'default', // nom de l'animation
             frames: 'dude', 
-            frameRate: 1.5, // vitesse de l'animation
+            frameRate: 3, // vitesse de l'animation
             repeat : -1 // infini
         });
         
@@ -36,7 +37,11 @@ class Game extends Phaser.Scene {
             this.player.x -= 5;
         } else if(this.input.keyboard.checkDown(this.touches.right, 0)) {
             this.player.x += 5;
-        }
+        } else if(this.input.keyboard.checkDown(this.touches.down, 0)) {
+            this.player.y += 5;
+        } else if(this.input.keyboard.checkDown(this.touches.up, 0)) {
+            this.player.y -= 5;
+        } 
     }
 }
 
