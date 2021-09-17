@@ -9,6 +9,8 @@ function sleep(milliseconds) {
   }
 
 class Game extends Phaser.Scene {
+    nomServeurPlayer;
+
     touches;
     player;
     player2; 
@@ -58,7 +60,25 @@ class Game extends Phaser.Scene {
 
             // Listen for messages
             this.socket.onmessage = (event) => {
-                console.log(event.data);
+                if(event.data == 'JA' || event.data == 'JB') {
+                    this.nomServeurPlayer = event.data;
+                }
+                
+
+                var mouve = JSON.parse(event.data);
+                console.log(mouve);
+
+                console.log(typeof mouve);
+                console.log(mouve.move);
+                if (mouve.move == "up") {
+                    this.player2.y -= 5;
+                } else if (mouve.move == "right") {
+                    this.player2.x += 5;
+                } else if (mouve.move == "left") {
+                    this.player2.x -= 5;
+                } else if (mouve.move == "down") {
+                    this.player2.y += 5;
+                }
             };
 
             this.socket.onclose = (event) => {
@@ -119,6 +139,8 @@ class Game extends Phaser.Scene {
             this.player.y -= 5; 
         } 
 
+
+        
         /*if(this.touches.keys.A.isDown || this.touches.keys.Q.isDown) {
             this.player2.x -= 5;
         } else if(this.touches.keys.D.isDown) {
