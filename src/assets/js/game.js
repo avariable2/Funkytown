@@ -1,4 +1,5 @@
 
+
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -12,6 +13,7 @@ class Game extends Phaser.Scene {
     player;
     player2; 
     snack;
+    socket;
 
     constructor() {
         super();
@@ -30,44 +32,43 @@ class Game extends Phaser.Scene {
         this.load.image('bg', 'assets/assetsGame/bg.jpg');
         
         this.load.image('demon', 'assets/assetsGame/demon.png');
+        
     }
 
-
+    hero_id = 'waiter';
 
     create () // Ici on ajoute ce que l'on a preload et on modifie pour l'etat de base du jeu
     {
-
-        var hero_id = 'waiter';
-
         
-        console.log('Connection to serv ');
+        console.log('Connection to serv ...');
 
         // Create WebSocket connection.
-        const socket = new WebSocket('ws://192.168.1.32:2002');
+        try {
+            //this.socket = new WebSocket('ws://86.245.16.8:2002/');
+            this.socket = new WebSocket('ws:localhost:3000');
+            
+            // Connection opened
+            this.socket.addEventListener('open', function (event) {
+                this.socket.send('Jean');
+            });
 
-        // Connection opened
-        socket.addEventListener('open', function (event) {
-            socket.send('Jean');
-        });
 
-        
-        console.log('web setup');
 
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
-            if (message == 'Elf'){
-                hero_id = 'Elf';
+            console.log(' -> Web setup : connection reussi !');
+
+            // Listen for messages
+            this.socket.onmessage = (event) => {
+                console.log(event.data);
+            };
+
+            this.socket.onclose = (event) => {
+                console.log('Deconnexion : le serveur ne repond plus.');
             }
-            if (message == 'Dude'){
-                hero_id = 'Dude';
-            }
-        });
+        } catch (error) {
+            console.log(' -> Erreur lors de la connexion.');
+        }
 
-
-        console.log('creating game');
- 
-
+        console.log('Creating game ...');
         this.add.image(0,0, 'bg').setOrigin(0,0);
         this.anims.create({
             key: 'default', // nom de l'animation
@@ -86,8 +87,6 @@ class Game extends Phaser.Scene {
 
         this.touches = this.input.keyboard.createCursorKeys();
 
-
-
         this.player = this.physics.add.sprite(400, 300, 'dude').play('default');
         this.player.setScale(4);
 
@@ -99,36 +98,28 @@ class Game extends Phaser.Scene {
    
         this.player.setCollideWorldBounds(true);
         this.player2.setCollideWorldBounds(true);
-    
-      //  this.snack = this.add.image(Phaser.Math.Between(100,200),Phaser.Math.Between(100,200),'donj');
-         this.snack = this.matter.add.image(300,200,'demon');
-      // 3 65 12 79
 
- 
-        this.snack.scale = 4
-
+        console.log(" -> creation reussi !");
     }
 
     update () // Ici on s'occupe des interractions
     {
-        
-        while(hero_id == 'waiter'){
-            console.log('waiting for serv');
-            sleep(2000);
-
-        }
 
         if(this.input.keyboard.checkDown(this.touches.left, 0)) {
+            this.socket.send(JSON.stringify({move: 'left'}));
             this.player.x -= 5;
         } else if(this.input.keyboard.checkDown(this.touches.right, 0)) {
+            this.socket.send(JSON.stringify({move: 'right'}));
             this.player.x += 5;
         } else if(this.input.keyboard.checkDown(this.touches.down, 0)) {
+            this.socket.send(JSON.stringify({move: 'down'}));
             this.player.y += 5;
         } else if(this.input.keyboard.checkDown(this.touches.up, 0)) {
+            this.socket.send(JSON.stringify({move: 'up'}));
             this.player.y -= 5; 
         } 
 
-        if(this.touches.keys.A.isDown || this.touches.keys.Q.isDown) {
+        /*if(this.touches.keys.A.isDown || this.touches.keys.Q.isDown) {
             this.player2.x -= 5;
         } else if(this.touches.keys.D.isDown) {
             this.player2.x += 5;
@@ -136,8 +127,7 @@ class Game extends Phaser.Scene {
             this.player2.y += 5;
         } else if(this.touches.keys.W.isDown || this.touches.keys.Z.isDown) {
             this.player2.y -= 5;
-        }   
-
+        }  */
     }
 }
 
