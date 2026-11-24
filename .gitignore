@@ -43,3 +43,20 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Never commit local secrets and developer environments
+.env
+.env.*
+**/.env
+**/.env.*
+*.pem
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.local.json
+*.local.yml
+*.local.yaml
+*credentials*.json
+*secrets*.json
+**/xcuserdata/
