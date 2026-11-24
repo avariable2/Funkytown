@@ -1,6 +1,6 @@
 # Funkytown
 
-[Play Demo](https://your-demo-link.com) • [GitHub Actions Status](https://github.com/avariable2/funkytown/actions)
+[Repository](https://github.com/avariable2/Funkytown)
 
 **Funkytown** is a browser-based arcade game built with Angular and Phaser 3. Guide your character through a vibrant cityscape, collect tokens, and avoid obstacles to achieve the highest score!
 
@@ -109,6 +109,6 @@ Contributions are welcome! Please:
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 
-[Play Demo](https://your-demo-link.com) • [GitHub Actions Status](https://github.com/avariable2/funkytown/actions)
+[Repository](https://github.com/avariable2/Funkytown)
 
 
